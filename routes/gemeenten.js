@@ -13,7 +13,6 @@ router.get("/", function (req, res, next) {
 
 		res.send(JSON.parse(data));
 	});
-	//res.send("get all gemeenten");
 });
 
 router.get("/:city", function (req, res, next) {
@@ -22,10 +21,13 @@ router.get("/:city", function (req, res, next) {
 			throw err;
 		}
 
-		res.send(JSON.parse(data));
-	});
+		var list = JSON.parse(data);
+		var result = list.filter(function (item) {
+			return item.gemeente === req.params.city;
+		});
 
-	res.send("get gemeente of " + req.params.city);
+		res.send(result);
+	});
 });
 
 module.exports = router;
