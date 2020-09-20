@@ -4,14 +4,28 @@ var fs = require("fs");
 
 const dataPath = "./data/gemeenten.json";
 
-/* GET users listing. */
+/* GET gemeente listing. */
 router.get("/", function (req, res, next) {
+	// res.send("Sort is: " + req.query.sort);
 	fs.readFile(dataPath, "utf8", (err, data) => {
 		if (err) {
 			throw err;
 		}
 
-		res.send(JSON.parse(data));
+		var list = JSON.parse(data);
+		if (req.query.sort === "inwoners") {
+			var result = list.sort((a, b) => {
+				return a.inwoners > b.inwoners;
+			});
+			res.send(result);
+		} else if (req.query.sort === "gemeente") {
+			var result = list.sort((a, b) => {
+				return b.name < a.name ? 1 : b.name > a.name ? -1 : 0;
+			});
+			res.send(result);
+		} else {
+			res.send(JSON.parse(data));
+		}
 	});
 });
 
