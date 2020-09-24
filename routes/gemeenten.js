@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
+const sorted = require("../middleware/sort");
 
 const dataPath = "./data/gemeenten.json";
 
@@ -13,17 +14,13 @@ router.get("/", function (req, res, next) {
 
 		const list = JSON.parse(data);
 		if (req.query.sort === "inwoners") {
-			/*const result = */list.sort((a, b) => {
-				return (a.inwoners > b.inwoners)?1:-1;
-			});
+			sorted.byInhabitant(list);
 			res.send(list);
 		} else if (req.query.sort === "gemeente") {
-			/*const result = */list.sort((a, b) => {
-				return (a.gemeente > b.gemeente)?1:-1;
-			});
+			sorted.byCity(list);
 			res.send(list);
 		} else {
-			res.send(JSON.parse(list));
+			res.send(list);
 		}
 	});
 });
