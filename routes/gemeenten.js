@@ -1,6 +1,6 @@
-var express = require("express");
-var router = express.Router();
-var fs = require("fs");
+const express = require("express");
+const router = express.Router();
+const fs = require("fs");
 
 const dataPath = "./data/gemeenten.json";
 
@@ -12,19 +12,21 @@ router.get("/", function (req, res, next) {
 			throw err;
 		}
 
-		var list = JSON.parse(data);
+		const list = JSON.parse(data);
 		if (req.query.sort === "inwoners") {
-			var result = list.sort((a, b) => {
-				return a.inwoners > b.inwoners;
+			const result = list.sort((a, b) => {
+				if(a.inwoners > b.inwoners) return 1;
+				else if(a.inwoners < b.inwoners) return -1;
 			});
 			res.send(result);
 		} else if (req.query.sort === "gemeente") {
-			var result = list.sort((a, b) => {
-				return b.name < a.name ? 1 : b.name > a.name ? -1 : 0;
+			const result = list.sort((a, b) => {
+				if(a.gemeente > b.gemeente) return 1;
+				else if(a.gemeente < b.gemeente) return -1;
 			});
 			res.send(result);
 		} else {
-			res.send(JSON.parse(data));
+			res.send(JSON.parse(list));
 		}
 	});
 });
@@ -35,8 +37,8 @@ router.get("/:city", function (req, res, next) {
 			throw err;
 		}
 
-		var list = JSON.parse(data);
-		var result = list.filter(function (item) {
+		const list = JSON.parse(data);
+		const result = list.filter(function (item) {
 			return item.gemeente === req.params.city;
 		});
 
