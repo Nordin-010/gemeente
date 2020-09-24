@@ -13,15 +13,15 @@ router.get("/", function (req, res, next) {
 
 		const list = JSON.parse(data);
 		if (req.query.sort === "inwoners") {
-			const result = list.sort((a, b) => {
+			/*const result = */list.sort((a, b) => {
 				return (a.inwoners > b.inwoners)?1:-1;
 			});
-			res.send(result);
+			res.send(list);
 		} else if (req.query.sort === "gemeente") {
-			const result = list.sort((a, b) => {
+			/*const result = */list.sort((a, b) => {
 				return (a.gemeente > b.gemeente)?1:-1;
 			});
-			res.send(result);
+			res.send(list);
 		} else {
 			res.send(JSON.parse(list));
 		}
