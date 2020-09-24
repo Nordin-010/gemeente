@@ -14,14 +14,12 @@ router.get("/", function (req, res, next) {
 		const list = JSON.parse(data);
 		if (req.query.sort === "inwoners") {
 			const result = list.sort((a, b) => {
-				if(a.inwoners > b.inwoners) return 1;
-				else if(a.inwoners < b.inwoners) return -1;
+				return (a.inwoners > b.inwoners)?1:-1;
 			});
 			res.send(result);
 		} else if (req.query.sort === "gemeente") {
 			const result = list.sort((a, b) => {
-				if(a.gemeente > b.gemeente) return 1;
-				else if(a.gemeente < b.gemeente) return -1;
+				return (a.gemeente > b.gemeente)?1:-1;
 			});
 			res.send(result);
 		} else {
