@@ -6,7 +6,6 @@ const dataPath = "./data/gemeenten.json";
 
 /* GET gemeente listing. */
 router.get("/", function (req, res, next) {
-	// res.send("Sort is: " + req.query.sort);
 	fs.readFile(dataPath, "utf8", (err, data) => {
 		if (err) {
 			throw err;
@@ -31,6 +30,7 @@ router.get("/", function (req, res, next) {
 	});
 });
 
+// GET a specific city
 router.get("/:city", function (req, res, next) {
 	fs.readFile(dataPath, "utf8", (err, data) => {
 		if (err) {
