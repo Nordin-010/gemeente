@@ -1,17 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const fs = require("fs");
+const fs = require("fs").promises;
 const sorted = require("../middleware/sort");
 
-const dataPath = "./data/xgemeenten.json";
+const dataPath = "./data/gemeenten.json";
 
 /* GET gemeente listing. */
-router.get("/", function (req, res, next) {
-	fs.readFile(dataPath, "utf8", (err, data) => {
-		if (err) {
-			return res.status(400).send(err);
-			// return next();
-		}
+router.get("/", async function (req, res, next) {
+	
+	try {
+		const data = await fs.readFile(dataPath);
 
 		const list = JSON.parse(data);
 		if (req.query.sort === "inwoners") {
@@ -23,7 +21,10 @@ router.get("/", function (req, res, next) {
 		} else {
 			res.send(list);
 		}
-	});
+	}
+	catch(error) {
+		return res.status(400).send(error);	
+	}
 });
 
 // GET a specific city
