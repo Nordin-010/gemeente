@@ -3,13 +3,14 @@ const router = express.Router();
 const fs = require("fs");
 const sorted = require("../middleware/sort");
 
-const dataPath = "./data/gemeenten.json";
+const dataPath = "./data/xgemeenten.json";
 
 /* GET gemeente listing. */
 router.get("/", function (req, res, next) {
 	fs.readFile(dataPath, "utf8", (err, data) => {
 		if (err) {
-			throw err;
+			return res.status(400).send(err);
+			// return next();
 		}
 
 		const list = JSON.parse(data);
