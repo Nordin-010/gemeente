@@ -6,7 +6,7 @@ const sorted = require("../middleware/sort");
 const dataPath = "./data/gemeenten.json";
 
 /* GET gemeente listing. */
-router.get("/", async function (req, res, next) {
+router.get("/", async (req, res, next) => {
 	
 	try {
 		const data = await fs.readFile(dataPath);
@@ -28,19 +28,23 @@ router.get("/", async function (req, res, next) {
 });
 
 // GET a specific city
-router.get("/:city", function (req, res, next) {
-	fs.readFile(dataPath, "utf8", (err, data) => {
-		if (err) {
-			throw err;
-		}
+router.get("/:city", async (req, res, next) => {
+
+	try {
+		const data = await fs.readFile(dataPath);
 
 		const list = JSON.parse(data);
+
 		const result = list.filter(function (item) {
 			return item.gemeente === req.params.city;
 		});
 
 		res.send(result);
-	});
+		
+	}
+	catch(error) {
+		return res.status(400).send(error);	
+	}
 });
 
 module.exports = router;
